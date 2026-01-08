@@ -39,22 +39,39 @@ def main():
         transformer=StandardScaler()
     )
 
-    model.fit(X_train,y_train)
+    model.fit(X_train, y_train)
 
-    y_pred_test=model.predict(X_test)
-    y_pred_train=model.predict(X_train)
+    output_dir = PROJECT_ROOT / "results"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    results_path = output_dir / "model_report.txt"
+
+    y_pred_test = model.predict(X_test)
+    y_pred_train = model.predict(X_train)
 
     test_mae = mean_absolute_error(y_test, y_pred_test, multioutput="raw_values")
     train_mae = mean_absolute_error(y_train, y_pred_train, multioutput="raw_values")
+    test_r2 = r2_score(y_test, y_pred_test, multioutput="uniform_average")
+    train_r2 = r2_score(y_train, y_pred_train, multioutput="uniform_average")
 
-    print("Test MAE  [lambda1, mu, psi, lambda2]:", test_mae)
-    print("Train MAE [lambda1, mu, psi, lambda2]:", train_mae)
+    with open(results_path, "w") as f:
+        f.write("=== MODEL ARCHITECTURE & PARAMETERS ===\n")
+        mlp_params = model.regressor_.named_steps['model'].get_params()
+        for param, value in mlp_params.items():
+            f.write(f"{param}: {value}\n")
+        
+        f.write("\n=== PERFORMANCE METRICS ===\n")
+        f.write(f"Test MAE (L1, mu, psi, L2): {test_mae}\n")
+        f.write(f"Train MAE (L1, mu, psi, L2): {train_mae}\n")
+        f.write(f"Test R2 Score:  {test_r2:.4f}\n")
+        f.write(f"Train R2 Score: {train_r2:.4f}\n")
 
-    print("Test R2 :", r2_score(y_test, y_pred_test, multioutput="uniform_average"))
-    print("Train R2:", r2_score(y_train, y_pred_train, multioutput="uniform_average"))
+    print(f"Results successfully saved to {results_path}")
 
 if __name__ == "__main__":
     main()
+
+
+
 
 
 
