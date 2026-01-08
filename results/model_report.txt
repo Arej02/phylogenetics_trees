@@ -1,0 +1,31 @@
+=== MODEL ARCHITECTURE & PARAMETERS ===
+activation: relu
+alpha: 0.0001
+batch_size: auto
+beta_1: 0.9
+beta_2: 0.999
+early_stopping: True
+epsilon: 1e-08
+hidden_layer_sizes: (512, 256)
+learning_rate: constant
+learning_rate_init: 0.001
+loss: squared_error
+max_fun: 15000
+max_iter: 200
+momentum: 0.9
+n_iter_no_change: 10
+nesterovs_momentum: True
+power_t: 0.5
+random_state: 42
+shuffle: True
+solver: adam
+tol: 0.0001
+validation_fraction: 0.1
+verbose: True
+warm_start: False
+
+=== PERFORMANCE METRICS ===
+Test MAE (L1, mu, psi, L2): [0.05588175 0.02561918 0.10647093 0.5295773 ]
+Train MAE (L1, mu, psi, L2): [0.05070489 0.02101835 0.080141   0.42701513]
+Test R2 Score:  0.4882
+Train R2 Score: 0.6878
