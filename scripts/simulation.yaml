@@ -1,0 +1,53 @@
+output_dir: outputs/Canonical-OneShift-TipsConditioned
+data_type: trees
+n_samples: 1000
+n_jobs: -1
+seed: 42
+
+context:
+  t1:
+    type: uniform
+    low: 4
+    high: 8
+
+  la1:
+    type: uniform
+    low: 0.01
+    high: 1.0
+
+  mu_over_la1:
+    type: uniform
+    low: 0.0
+    high: 0.9
+
+  psi:
+    type: uniform
+    low: 0.1
+    high: 1.0
+
+  la2_multiplier:
+    type: uniform
+    low: 2.01
+    high: 5.0
+
+  n_tips:
+    type: integers
+    low: 100
+    high: 1000
+
+parameterization: canonical
+states: [A]
+
+birth_rates:
+  value: [la1, la1 * la2_multiplier]
+  change_times: [t1]
+
+death_rates: mu_over_la1 * la1
+sampling_rates: psi
+remove_after_sampling: False
+
+n_tips: n_tips
+
+acceptance_criterion: tree.age > t1 + 4
+
+timeout: 10
