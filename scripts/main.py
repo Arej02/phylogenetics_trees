@@ -10,6 +10,12 @@ from src.model import RegressionMLP
 from src.train import train_model
 from src.evaluate import evaluate
 
+import random
+
+SEED = 10
+random.seed(SEED)
+np.random.seed(SEED)
+
 def main():
     global device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -48,12 +54,12 @@ def main():
 
     model = RegressionMLP(input_dim=X.shape[1]).to(device)
 
-    print("Training model...")
+    print("Training model")
     model, train_losses, val_losses = train_model(model, train_loader, val_loader)
 
     target_names = ["lambda1", "mu", "psi", "lambda2", "t1"]
 
-    print("\nEvaluating...")
+    print("\nEvaluating")
     mae_test, r2_test, _, _ = evaluate(
         model, test_ds.tensors[0], y_test_transformed, target_names
     )
@@ -61,15 +67,17 @@ def main():
         model, train_ds.tensors[0], y_train_transformed, target_names
     )
 
+    epochs_trained = len(train_losses)
     plt.figure(figsize=(9, 5))
-    plt.plot(train_losses, label='train MSE')
-    plt.plot(val_losses,   label='val MSE')
+    plt.plot(range(1, epochs_trained + 1), train_losses, label='train MSE')
+    plt.plot(range(1, epochs_trained + 1), val_losses,   label='val MSE')
     plt.yscale('log')
     plt.xlabel('Epoch')
     plt.ylabel('MSE (log scale)')
     plt.title('Training & Validation Loss')
     plt.legend()
     plt.grid(True, alpha=0.3)
+    plt.xlim(1, epochs_trained + 10)  
     plt.tight_layout()
     plt.savefig(plot_dir / "loss_curve.png", dpi=140)
     plt.close()
@@ -98,8 +106,6 @@ def main():
         f.write("MAE per target:\n")
         for name, v in zip(target_names, mae_train):
             f.write(f"  {name:8} : {v:.6f}\n")
-
-        f.write(f"\nLoss curve saved → plots/loss_curve.png\n")
 
     print(f"\nReport saved to: {report_path}")
     print(f"Loss curve saved to: {plot_dir / 'loss_curve.png'}")
