@@ -1,0 +1,30 @@
+MODEL PERFORMANCE REPORT
+========================
+
+Architecture: MLP → hidden = [256, 128], dropout=0.25, AdamW, lr=1e-4, weight_decay=1e-3
+Device:       cpu
+Train size:   4000
+Test size:    1000
+Target transform: log1p(x) on all targets
+
+Metrics (test set):
+--------------------
+Average R² : 0.5281
+MAE per target:
+  lambda1  : 0.115863
+  mu       : 0.119872
+  psi      : 0.071710
+  lambda2  : 0.180912
+  t1       : 0.615802
+
+Metrics (train set):
+---------------------
+Average R² : 0.8179
+MAE per target:
+  lambda1  : 0.071806
+  mu       : 0.071286
+  psi      : 0.051762
+  lambda2  : 0.091891
+  t1       : 0.373217
+
+
