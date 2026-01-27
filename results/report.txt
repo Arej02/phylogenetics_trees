@@ -9,22 +9,21 @@ Target transform: log1p(x) on all targets
 
 Metrics (test set):
 --------------------
-Average R² : 0.5281
+Average R² : 0.5429
 MAE per target:
-  lambda1  : 0.115863
-  mu       : 0.119872
-  psi      : 0.071710
-  lambda2  : 0.180912
-  t1       : 0.615802
+  lambda1  : 0.115295
+  mu       : 0.118646
+  psi      : 0.069456
+  lambda2  : 0.180496
+  t1       : 0.623890
 
 Metrics (train set):
 ---------------------
-Average R² : 0.8179
+Average R² : 0.7977
 MAE per target:
-  lambda1  : 0.071806
-  mu       : 0.071286
-  psi      : 0.051762
-  lambda2  : 0.091891
-  t1       : 0.373217
-
+  lambda1  : 0.074739
+  mu       : 0.074597
+  psi      : 0.054216
+  lambda2  : 0.097519
+  t1       : 0.408570
 
