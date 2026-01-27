@@ -2,7 +2,7 @@
 
 - Lambda1 (birth rate1): U(0.01, 1.0)
 - Mu/Lambda ratio: U(0.0, 0.9)
-- Lambda2 (birth rate2): U(2.01,5) such that l2>2.01*l1
+- Lambda2 (birth rate2): U(0.01,1.0) such that l2>2.01*l1 TODO: clarify
 - Psi (sampling rate): U(0.1, 1.0)
 - t_1 (rate shift time): U(4,8)
 - Target trees: 5000
