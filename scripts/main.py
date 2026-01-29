@@ -15,11 +15,11 @@ import random
 SEED = 10
 random.seed(SEED)
 np.random.seed(SEED)
+torch.manual_seed(SEED)
 
 def main():
     global device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Using device: {device}")
 
     root = Path(__file__).resolve().parents[1]
     out_dir = root / "results"
@@ -86,8 +86,8 @@ def main():
     with open(report_path, "w", encoding="utf-8") as f:
         f.write("MODEL PERFORMANCE REPORT\n")
         f.write("========================\n\n")
-
-        f.write("Architecture: MLP → hidden = [256, 128], dropout=0.25, AdamW, lr=1e-4, weight_decay=1e-3\n")
+        
+        f.write("Architecture: MLP → hidden = [384,192,96], dropout=0.15, AdamW, lr=1e-4, weight_decay=1e-3\n")
         f.write(f"Device:       {device}\n")
         f.write(f"Train size:   {len(train_ds)}\n")
         f.write(f"Test size:    {len(test_ds)}\n")
