@@ -25,10 +25,10 @@ context:
     low: 0.1
     high: 1.0
 
-  la2_multiplier:
+  la2:
     type: uniform
-    low: 2.01
-    high: 5.0
+    low: 0.01
+    high: 1.0
 
   n_tips:
     type: integers
@@ -39,7 +39,7 @@ parameterization: canonical
 states: [A]
 
 birth_rates:
-  value: [la1, la1 * la2_multiplier]
+  value: [la1, la2]
   change_times: [t1]
 
 death_rates: mu_over_la1 * la1
@@ -51,18 +51,20 @@ n_tips: n_tips
 
 acceptance_criterion: |
   (
-    tree.age > t1 + 3
+    la2 > la1 * 2.01
     and
-    sum(1 for leaf in tree.get_leaves() if leaf.time < t1)
-      >= max(15, 0.05 * n_tips)
+    tree.age > t1 + 2
     and
-    sum(1 for leaf in tree.get_leaves() if leaf.time > t1)
+    sum(1 for node, time in tree.times.items() if node.is_leaf() and time < t1)
+      >= max(15, 0.07 * n_tips)
+    and
+    sum(1 for node, time in tree.times.items() if node.is_leaf() and time > t1)
       >= max(30, 0.1 * n_tips)
   )
 
 logs:
-  num_leaves_before_t1: sum(1 for leaf in tree.get_leaves() if leaf.time < t1)
-  num_leaves_after_t1:  sum(1 for leaf in tree.get_leaves() if leaf.time > t1)
+  num_leaves_before_t1: sum(1 for node, time in tree.times.items() if node.is_leaf() and time < t1)
+  num_leaves_after_t1:  sum(1 for node, time in tree.times.items() if node.is_leaf() and time > t1)
   tree_height: tree.age
 
-timeout: 2
+timeout: 5
